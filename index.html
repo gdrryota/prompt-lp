@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMPT. | AIでLP制作を代行するパートナー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f4f4f2;
+    --bg-dark: #111111;
+    --text: #111111;
+    --text-light: #6e6e6e;
+    --accent: #4338ca;
+    --accent-soft: #e3e0fb;
+    --on-dark: #f7f7f5;
+    --on-dark-soft: #a3a3a3;
+    --radius: 6px;
+    --maxw: 1280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img, svg { max-width: 100%; display: block; }
+  ul { list-style: none; }
+
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 80px; position: relative; }
+  section { padding: 120px 0; position: relative; overflow: hidden; }
+
+  h1, h2, h3 {
+    font-family: "Space Grotesk", "Noto Sans JP", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .mono { font-family: "JetBrains Mono", monospace; }
+
+  /* ===== Section label ===== */
+  .section-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .section-number::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .section-number.on-dark { color: var(--accent); }
+
+  .section-head { max-width: 640px; margin-bottom: 64px; }
+  .section-head h2 { font-size: clamp(32px, 4.5vw, 54px); line-height: 1.2; margin-bottom: 20px; }
+  .section-head p { color: var(--text-light); font-size: 17px; }
+  .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+  .title-line { width: 64px; height: 3px; background: var(--accent); margin-top: 24px; border-radius: 2px; }
+  .center .title-line { margin-left: auto; margin-right: auto; }
+
+  /* ===== Buttons ===== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 34px; border-radius: var(--radius);
+    font-weight: 700; font-size: 15px; letter-spacing: 0.01em;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    white-space: nowrap;
+  }
+  .btn svg { width: 18px; height: 18px; }
+  .btn-primary { background: var(--accent); color: var(--on-dark); }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(67,56,202,0.3); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--text); color: var(--text); }
+  .btn-outline:hover { background: var(--text); color: var(--bg); transform: translateY(-3px); }
+  .btn-light { background: var(--on-dark); color: var(--bg-dark); }
+  .btn-light:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(0,0,0,0.35); }
+  .btn-outline-light { border: 1.5px solid var(--on-dark-soft); color: var(--on-dark); }
+  .btn-outline-light:hover { background: var(--on-dark); color: var(--bg-dark); }
+  .cta-group { display: flex; gap: 18px; flex-wrap: wrap; }
+
+  /* ===== Decorative ===== */
+  .deco-circle {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(67,56,202,0.14) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .deco-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(17,17,17,0.08);
+    pointer-events: none; z-index: 0;
+  }
+  .deco-ring.on-dark { border-color: rgba(247,247,245,0.1); }
+  .dot-pattern {
+    position: absolute;
+    background-image: radial-gradient(circle, rgba(17,17,17,0.14) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ===== Header ===== */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  header.scrolled { border-color: rgba(17,17,17,0.08); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 1.15rem; }
+  .logo svg { width: 36px; height: 36px; }
+  .nav .btn { padding: 12px 24px; font-size: 14px; }
+
+  /* ===== Hero ===== */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 84px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+  .hero-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 28px;
+    opacity: 0; animation: heroFadeIn 0.7s ease-out 0.1s both;
+  }
+  .hero-title {
+    font-size: clamp(44px, 6.2vw, 96px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    opacity: 0; animation: heroFadeIn 0.7s ease-out 0.3s both;
+  }
+  .hero-title .accent-word { color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(16px, 1.3vw, 19px);
+    color: var(--text-light);
+    max-width: 460px; margin-bottom: 40px; line-height: 1.9;
+    opacity: 0; animation: heroFadeIn 0.7s ease-out 0.5s both;
+  }
+  .hero-cta-wrap { opacity: 0; animation: heroFadeIn 0.7s ease-out 0.7s both; }
+  .hero-stats { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
+  .hero-stat-num { font-family: "Space Grotesk", sans-serif; font-size: 26px; font-weight: 700; color: var(--text); }
+  .hero-stat-label { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Terminal -> Browser mockup */
+  .hero-visual { position: relative; height: 520px; opacity: 0; animation: heroFadeIn 0.9s ease-out 0.4s both; }
+  .mock-window {
+    position: absolute; left: 0; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(17,17,17,0.16);
+    background: #1a1a1a;
+  }
+  .mock-terminal { width: 82%; top: 0; }
+  .mock-bar { display: flex; gap: 7px; padding: 14px 16px; background: #262626; }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-dot:nth-child(1) { background: #ff5f57; }
+  .mock-dot:nth-child(2) { background: #febc2e; }
+  .mock-dot:nth-child(3) { background: #28c840; }
+  .mock-body { padding: 22px 20px; font-family: "JetBrains Mono", monospace; font-size: 13px; color: #d4d4d4; line-height: 2; }
+  .mock-prompt-line { color: var(--on-dark-soft); }
+  .mock-caret { color: #7c7ce8; }
+  .mock-cursor {
+    display: inline-block; width: 7px; height: 14px; background: #7c7ce8; vertical-align: middle;
+    animation: blink 1.1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .mock-browser {
+    width: 68%; bottom: 0; right: 0; left: auto; background: var(--bg);
+    border: 1px solid rgba(17,17,17,0.08);
+  }
+  .mock-browser .mock-bar { background: var(--bg-alt); }
+  .mock-browser .mock-bar .mock-dot { background: rgba(17,17,17,0.15); }
+  .mock-page { padding: 20px; }
+  .mock-page-line { height: 10px; border-radius: 4px; background: rgba(17,17,17,0.08); margin-bottom: 10px; }
+  .mock-page-line.w60 { width: 60%; height: 18px; background: var(--text); opacity: 0.85; }
+  .mock-page-line.w40 { width: 40%; }
+  .mock-page-line.w80 { width: 80%; }
+  .mock-page-btn { width: 120px; height: 34px; border-radius: 6px; background: var(--accent); margin-top: 16px; }
+
+  .connector-arrow {
+    position: absolute; left: 76%; top: 46%; width: 60px; height: 60px;
+    color: var(--accent);
+  }
+
+  /* ===== Pain points ===== */
+  .bg-alt { background: var(--bg-alt); }
+  .pain-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; position: relative; z-index: 1; }
+  .pain-card {
+    background: var(--bg); border-radius: 16px; padding: 40px;
+    display: flex; gap: 22px; align-items: flex-start;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .pain-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(17,17,17,0.08); }
+  .pain-icon {
+    flex-shrink: 0; width: 52px; height: 52px; border-radius: 12px;
+    background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pain-icon svg { width: 26px; height: 26px; }
+  .pain-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0; font-family: "Noto Sans JP"; }
+  .pain-card p { font-size: 15px; color: var(--text-light); }
+
+  /* ===== Features ===== */
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; position: relative; z-index: 1; }
+  .feature-card {
+    padding: 44px 40px; border: 1px solid rgba(17,17,17,0.1); border-radius: 18px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .feature-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(17,17,17,0.1); border-color: transparent; }
+  .feature-num { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 18px; }
+  .feature-icon {
+    width: 56px; height: 56px; border-radius: 14px; background: var(--text); color: var(--bg);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+  }
+  .feature-icon svg { width: 28px; height: 28px; }
+  .feature-card h3 { font-size: 21px; margin-bottom: 12px; }
+  .feature-card p { font-size: 15.5px; color: var(--text-light); }
+
+  /* ===== Process ===== */
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; z-index: 1; }
+  .process-card { text-align: left; position: relative; padding-top: 8px; }
+  .process-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: rgba(17,17,17,0.1);
+  }
+  .process-card.active::before { background: var(--accent); }
+  .process-en { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--accent); margin: 20px 0 10px; }
+  .process-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: var(--bg);
+    border: 1px solid rgba(17,17,17,0.1); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  }
+  .process-icon svg { width: 24px; height: 24px; }
+  .process-card h3 { font-size: 19px; margin-bottom: 10px; }
+  .process-card p { font-size: 14.5px; color: var(--text-light); }
+
+  /* ===== Works (dark) ===== */
+  .section-dark { background: var(--bg-dark); color: var(--on-dark); }
+  .works-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 28px; position: relative; z-index: 1; }
+  .work-card {
+    background: #1a1a1a; border-radius: 18px; padding: 32px; border: 1px solid rgba(247,247,245,0.08);
+  }
+  .work-featured { display: flex; flex-direction: column; }
+  .work-badge {
+    display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; background: var(--accent); color: var(--on-dark);
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 20px; width: fit-content;
+  }
+  .work-mock {
+    border-radius: 12px; overflow: hidden; margin-bottom: 24px;
+    border: 1px solid rgba(247,247,245,0.08);
+  }
+  .work-mock .mock-bar { background: #2b2723; }
+  .work-mock-body { height: 160px; background: linear-gradient(155deg, #faf8f3, #ded3c2); position: relative; }
+  .work-mock-body::after {
+    content: ''; position: absolute; bottom: 20px; left: 20px; width: 60%; height: 10px; border-radius: 4px; background: #2b2723; opacity: 0.7;
+  }
+  .work-mock-body::before {
+    content: ''; position: absolute; bottom: 40px; left: 20px; width: 80%; height: 16px; border-radius: 4px; background: #2b2723;
+  }
+  .work-card h3 { color: var(--on-dark); font-size: 22px; margin-bottom: 10px; }
+  .work-card p { color: var(--on-dark-soft); font-size: 14.5px; margin-bottom: 8px; }
+  .work-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .work-tag { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--on-dark-soft); border: 1px solid rgba(247,247,245,0.15); padding: 4px 10px; border-radius: 999px; }
+  .work-cap {
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left;
+  }
+  .work-cap-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: rgba(67,56,202,0.2); color: #a5a1f5;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  }
+  .work-cap-icon svg { width: 24px; height: 24px; }
+
+  /* ===== Pricing ===== */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; position: relative; z-index: 1; }
+  .price-card {
+    background: var(--bg); border: 1px solid rgba(17,17,17,0.1); border-radius: 20px;
+    padding: 44px 36px; display: flex; flex-direction: column;
+  }
+  .price-card.featured {
+    background: var(--text); color: var(--bg); border-color: var(--text);
+    transform: scale(1.04); box-shadow: 0 30px 60px rgba(17,17,17,0.22);
+  }
+  .price-badge {
+    display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; background: var(--accent); color: var(--on-dark);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; width: fit-content;
+  }
+  .price-card h3 { font-size: 21px; margin-bottom: 6px; }
+  .price-card .price-range { font-family: "Space Grotesk", sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 28px; }
+  .price-card.featured .price-range { color: var(--bg); }
+  .price-feats { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; flex-grow: 1; }
+  .price-feats li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; }
+  .price-feats svg { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .price-card .btn { justify-content: center; width: 100%; }
+
+  /* ===== Final CTA ===== */
+  .final-cta {
+    background: var(--bg-dark); color: var(--on-dark); border-radius: 28px;
+    padding: 90px 64px; text-align: center; position: relative; overflow: hidden;
+  }
+  .final-cta h2 { font-size: clamp(30px, 4.4vw, 54px); color: var(--on-dark); margin-bottom: 20px; }
+  .final-cta p { color: var(--on-dark-soft); font-size: 17px; margin-bottom: 44px; }
+  .final-cta .cta-group { justify-content: center; position: relative; z-index: 1; }
+
+  /* ===== FAQ ===== */
+  .faq-list { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .faq-item { border-bottom: 1px solid rgba(17,17,17,0.12); padding: 28px 0; }
+  .faq-item summary {
+    cursor: pointer; font-size: 17px; font-weight: 700;
+    display: flex; justify-content: space-between; align-items: center; list-style: none; gap: 20px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-icon {
+    width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%;
+    border: 1.5px solid var(--accent); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; transition: transform 0.25s ease;
+  }
+  .faq-item[open] .faq-icon { transform: rotate(45deg); }
+  .faq-item p { margin-top: 16px; color: var(--text-light); font-size: 15px; max-width: 680px; }
+
+  /* ===== Footer ===== */
+  footer { padding: 64px 0 40px; }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 40px; margin-bottom: 32px; border-bottom: 1px solid rgba(17,17,17,0.1);
+  }
+  .footer-links { display: flex; gap: 32px; font-size: 14px; color: var(--text-light); }
+  .footer-bottom { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-light); flex-wrap: wrap; gap: 12px; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    section { padding: 64px 0; }
+    .hero { padding-top: 84px; }
+
+    h1 { font-size: clamp(32px, 9vw, 42px) !important; }
+    h2 { font-size: clamp(26px, 7vw, 34px) !important; }
+    h3 { font-size: 19px !important; }
+
+    .hero-grid { grid-template-columns: 1fr !important; gap: 44px !important; }
+    .hero-visual { height: 320px; order: -1; }
+    .hero-title { font-size: clamp(32px, 9vw, 44px); }
+    .mock-terminal { width: 88%; }
+    .mock-browser { width: 74%; }
+    .connector-arrow { display: none; }
+
+    .pain-grid, .feature-grid, .pricing-grid { grid-template-columns: 1fr !important; }
+    .process-grid { grid-template-columns: 1fr 1fr !important; gap: 32px 20px !important; }
+    .works-grid { grid-template-columns: 1fr !important; }
+
+    .price-card.featured { transform: none; }
+
+    .btn { width: 100%; justify-content: center; min-height: 48px; }
+    .cta-group { flex-direction: column; }
+    .cta-group .btn { width: 100%; }
+    .nav .btn { width: auto; padding: 10px 18px; }
+
+    .final-cta { padding: 56px 24px; border-radius: 20px; }
+    .footer-top { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .footer-bottom { flex-direction: column; }
+
+    img { max-width: 100%; height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="container nav">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="10" fill="var(--accent)"/><text x="20" y="27" text-anchor="middle" fill="var(--on-dark)" font-size="18" font-weight="700" font-family="Space Grotesk, sans-serif">P.</text></svg>
+      PROMPT.
+    </div>
+    <a href="mailto:gdr.ryota338@gmail.com?subject=LP制作のご相談" class="btn btn-primary">無料相談を申し込む</a>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+  <div class="deco-circle" style="width:520px; height:520px; top:-160px; left:-160px;"></div>
+  <div class="deco-ring" style="width:300px; height:300px; bottom:-100px; left:38%;"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-label mono">PROMPT. | AIでLP制作を代行するパートナー</div>
+        <h1 class="hero-title">はやく、ちゃんと、<br><span class="accent-word">伝わるLPを。</span></h1>
+        <p class="hero-sub">デザインの専門知識ではなく、AIを使いこなす力で。ヒアリングから公開まで、スピーディにLPを形にします。</p>
+        <div class="hero-cta-wrap">
+          <div class="cta-group">
+            <a href="mailto:gdr.ryota338@gmail.com?subject=LP制作のご相談" class="btn btn-primary">
+              無料相談を申し込む
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#works" class="btn btn-outline">制作事例を見る</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">3日〜</div>
+              <div class="hero-stat-label">最短の初稿スピード</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">無制限</div>
+              <div class="hero-stat-label">修正対応回数</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="mock-window mock-terminal">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-prompt-line">$ claude</div>
+            <div><span class="mock-caret">&gt;</span> LPをつくりたい<span class="mock-cursor"></span></div>
+          </div>
+        </div>
+        <svg class="connector-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></svg>
+        <div class="mock-window mock-browser">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-page">
+            <div class="mock-page-line w60"></div>
+            <div class="mock-page-line w80"></div>
+            <div class="mock-page-line w40"></div>
+            <div class="mock-page-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02: 課題提起 ===== -->
+<section class="bg-alt" id="problem">
+  <div class="dot-pattern" style="width:320px; height:320px; top:40px; right:-80px;"></div>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">SECTION_02</div>
+      <h2>こんなお悩み、ありませんか?</h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div>
+          <h3>LPが欲しいけれど、制作会社に頼む予算が厳しい</h3>
+          <p>本格的な制作会社に頼むと数十万円〜。まずは形にしたいだけなのに、と感じている。</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        </div>
+        <div>
+          <h3>発注しても納期が数週間〜1ヶ月かかってしまう</h3>
+          <p>できるだけ早く公開したいのに、通常の制作フローでは待たされることが多い。</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4z"/><path d="M9 20h6"/><path d="M4 12h16"/></svg>
+        </div>
+        <div>
+          <h3>ノーコードツールで自作してみたが、質が伴わない</h3>
+          <p>テンプレートに当てはめただけになってしまい、狙った印象に届かない。</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13"/><circle cx="12" cy="16.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div>
+          <h3>追加料金や修正対応への不安から発注に踏み切れない</h3>
+          <p>「言った以上に費用がかかるのでは」という不安が、依頼のハードルになっている。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03: 特徴 ===== -->
+<section id="features">
+  <div class="deco-circle" style="width:460px; height:460px; bottom:-140px; right:-140px;"></div>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">SECTION_03</div>
+      <h2>PROMPT.が選ばれる理由</h2>
+      <p>デザインの専門性ではなく、AIとの伴走力で価値を出します。</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </div>
+        <h3>AIを使い倒すから、圧倒的に速い</h3>
+        <p>最短3日で初稿を確認いただけます。通常の制作フローと比べて、大幅に時間を短縮できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+        </div>
+        <h3>ヒアリングから公開まで一緒に伴走</h3>
+        <p>「何が正解かわからない」という状態から、一つずつ言語化しながら一緒に形にしていきます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M5 15a9 9 0 0 0 14.4 3.4L20 20"/><path d="M19 9A9 9 0 0 0 4.6 5.6L4 4"/></svg>
+        </div>
+        <h3>修正は何度でも柔軟に</h3>
+        <p>「ここが違う」と感じたら遠慮なくご相談ください。納得いくまで一緒に調整します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h6a2 2 0 0 1 2 2v6l-10 10-8-8L12 3z"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <h3>専門デザイナーより抑えた価格帯</h3>
+        <p>AI活用による効率化を、そのまま価格に反映。まずは小さく試したい方にも選びやすい設計です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04: 制作フロー ===== -->
+<section class="bg-alt" id="flow">
+  <div class="dot-pattern" style="width:280px; height:280px; bottom:0; left:-60px;"></div>
+  <div class="container">
+    <div class="section-head center" style="max-width:600px;">
+      <div class="section-number" style="justify-content:center;">SECTION_04</div>
+      <h2>ご依頼から納品までの流れ</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="process-grid">
+      <div class="process-card active">
+        <div class="process-en">01 / HEARING</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+        </div>
+        <h3>ヒアリング</h3>
+        <p>ビジネス内容・ご要望・目指したい方向性を丁寧にお伺いします。</p>
+      </div>
+      <div class="process-card active">
+        <div class="process-en">02 / PROPOSAL</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+        </div>
+        <h3>提案</h3>
+        <p>参考サイトとデザインの方向性をご提案し、すり合わせます。</p>
+      </div>
+      <div class="process-card active">
+        <div class="process-en">03 / BUILD</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>制作</h3>
+        <p>AIと共に高速でLPを生成。確認いただきながら細部を調整します。</p>
+      </div>
+      <div class="process-card active">
+        <div class="process-en">04 / DELIVER</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+        </div>
+        <h3>納品</h3>
+        <p>HTML納品、ご希望に応じてFigma編集データもお渡しします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05: 制作事例(ダーク) ===== -->
+<section class="section-dark" id="works">
+  <div class="deco-circle" style="width:520px; height:520px; top:-200px; right:-160px; background:radial-gradient(circle, rgba(67,56,202,0.2) 0%, transparent 70%);"></div>
+  <div class="deco-ring on-dark" style="width:260px; height:260px; bottom:-80px; left:6%;"></div>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number on-dark">SECTION_05</div>
+      <h2 style="color:var(--on-dark);">制作事例</h2>
+      <p style="color:var(--on-dark-soft);">まだ実績は多くありませんが、AIとの制作プロセスを実例でご紹介します。</p>
+    </div>
+    <div class="works-grid">
+      <div class="work-card work-featured">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>SOU.</h3>
+        <p>生活雑貨ブランドを想定した架空案件のLP。AIとの共同制作で、ヒアリングから公開までを一通り実施したサンプル作品です。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#ミニマル</span>
+          <span class="work-tag">#レスポンシブ対応</span>
+        </div>
+      </div>
+      <div class="work-card work-cap">
+        <div class="work-cap-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <h3>コーポレートサイト</h3>
+        <p>会社紹介・事業内容を伝えるサイトも対応可能です。</p>
+      </div>
+      <div class="work-card work-cap">
+        <div class="work-cap-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        </div>
+        <h3>個人ポートフォリオサイト</h3>
+        <p>このPROMPT.自体も、同じ手法で制作した一例です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06: 料金プラン ===== -->
+<section class="bg-alt" id="pricing">
+  <div class="container">
+    <div class="section-head center" style="max-width:600px;">
+      <div class="section-number" style="justify-content:center;">SECTION_06</div>
+      <h2>料金プラン</h2>
+      <p>まずは小さく試したい方から、公開までまるごとお任せしたい方まで。</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>ライトプラン</h3>
+        <div class="price-range">¥30,000〜</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正3回まで</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML納品</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>対応目安 5日</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>画像自動補完対応</li>
+        </ul>
+        <a href="mailto:gdr.ryota338@gmail.com?subject=ライトプランのご相談" class="btn btn-outline">相談してみる</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">人気</div>
+        <h3>スタンダードプラン</h3>
+        <div class="price-range">¥58,000〜</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正回数 無制限</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML + Figmaデータ納品</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>対応目安 3〜5日</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>参考サイト分析付き</li>
+        </ul>
+        <a href="mailto:gdr.ryota338@gmail.com?subject=スタンダードプランのご相談" class="btn btn-light">相談してみる</a>
+      </div>
+      <div class="price-card">
+        <h3>フルサポートプラン</h3>
+        <div class="price-range">¥98,000〜</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>複数ページ対応</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正回数 無制限</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML + Figmaデータ納品</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>公開作業の代行</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>公開後1ヶ月サポート</li>
+        </ul>
+        <a href="mailto:gdr.ryota338@gmail.com?subject=フルサポートプランのご相談" class="btn btn-outline">相談してみる</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 07: 最終CTA + FAQ ===== -->
+<section id="cta">
+  <div class="container">
+    <div class="final-cta">
+      <div class="deco-circle" style="width:420px; height:420px; top:-140px; left:-100px; background:radial-gradient(circle, rgba(67,56,202,0.25) 0%, transparent 70%);"></div>
+      <div class="deco-ring on-dark" style="width:200px; height:200px; bottom:-60px; right:8%;"></div>
+      <h2>まずは無料相談から</h2>
+      <p>どんな些細なことでも構いません。まずはお気軽にご相談ください。</p>
+      <div class="cta-group">
+        <a href="mailto:gdr.ryota338@gmail.com?subject=LP制作のご相談" class="btn btn-light">
+          無料相談を申し込む
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#works" class="btn btn-outline-light">制作事例を見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-head center" style="max-width:600px;">
+      <div class="section-number" style="justify-content:center;">FAQ</div>
+      <h2>よくあるご質問</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>制作期間はどのくらいですか?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>プランにもよりますが、初稿は最短3日でお出しできます。修正を重ねる場合はその分お時間をいただきます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>修正は何回までお願いできますか?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>ライトプランは3回まで、スタンダード・フルサポートプランは回数無制限です。納得いくまでご相談ください。</p>
+      </details>
+      <details class="faq-item">
+        <summary>コーディングの知識がなくても大丈夫ですか?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>はい、問題ありません。ヒアリングから公開まで、専門知識がなくてもご依頼いただける形で進めます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>途中でイメージが変わった場合、対応してもらえますか?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>もちろん対応可能です。方向性が変わった場合も、都度ご相談いただきながら調整していきます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>支払い方法は?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>銀行振込に対応しています。詳細はご相談時にお伝えします。</p>
+      </details>
+      <details class="faq-item">
+        <summary>デザインの専門知識がなくても、クオリティは大丈夫ですか?<span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <p>AIが業界標準のデザインルールに沿って提案し、そこから細部まで一緒に確認しながら仕上げていきます。ご不安な点はいつでもご相談ください。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="logo">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="10" fill="var(--accent)"/><text x="20" y="27" text-anchor="middle" fill="var(--on-dark)" font-size="18" font-weight="700" font-family="Space Grotesk, sans-serif">P.</text></svg>
+        PROMPT.
+      </div>
+      <div class="footer-links">
+        <a href="#works">制作事例</a>
+        <a href="#pricing">料金プラン</a>
+        <a href="#faq">よくある質問</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 PROMPT. All rights reserved.</span>
+      <span>AIを活用したLP制作パートナーです。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+</script>
+</body>
+</html>
