@@ -257,11 +257,14 @@
 
   /* ===== Works (dark) ===== */
   .section-dark { background: var(--bg-dark); color: var(--on-dark); }
-  .works-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 28px; position: relative; z-index: 1; }
+  .works-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; position: relative; z-index: 1; }
   .work-card {
     background: #1a1a1a; border-radius: 18px; padding: 32px; border: 1px solid rgba(247,247,245,0.08);
+    display: block; transition: transform 0.25s ease, border-color 0.25s ease;
   }
-  .work-featured { display: flex; flex-direction: column; }
+  .work-card:hover { transform: translateY(-6px); border-color: rgba(247,247,245,0.2); }
+  .work-link-row { display: flex; align-items: center; gap: 6px; margin-top: 16px; font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); }
+  .work-link-row svg { width: 14px; height: 14px; }
   .work-badge {
     display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700;
     letter-spacing: 0.1em; background: var(--accent); color: var(--on-dark);
@@ -271,26 +274,21 @@
     border-radius: 12px; overflow: hidden; margin-bottom: 24px;
     border: 1px solid rgba(247,247,245,0.08);
   }
-  .work-mock .mock-bar { background: #2b2723; }
-  .work-mock-body { height: 160px; background: linear-gradient(155deg, #faf8f3, #ded3c2); position: relative; }
+  .work-mock .mock-bar { background: rgba(0,0,0,0.3); }
+  .work-mock-body {
+    height: 160px; position: relative;
+    background: linear-gradient(155deg, var(--mock-a, #faf8f3), var(--mock-b, #ded3c2));
+  }
   .work-mock-body::after {
-    content: ''; position: absolute; bottom: 20px; left: 20px; width: 60%; height: 10px; border-radius: 4px; background: #2b2723; opacity: 0.7;
+    content: ''; position: absolute; bottom: 20px; left: 20px; width: 60%; height: 10px; border-radius: 4px; background: rgba(0,0,0,0.32);
   }
   .work-mock-body::before {
-    content: ''; position: absolute; bottom: 40px; left: 20px; width: 80%; height: 16px; border-radius: 4px; background: #2b2723;
+    content: ''; position: absolute; bottom: 40px; left: 20px; width: 80%; height: 16px; border-radius: 4px; background: rgba(0,0,0,0.45);
   }
   .work-card h3 { color: var(--on-dark); font-size: 22px; margin-bottom: 10px; }
   .work-card p { color: var(--on-dark-soft); font-size: 14.5px; margin-bottom: 8px; }
   .work-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
   .work-tag { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--on-dark-soft); border: 1px solid rgba(247,247,245,0.15); padding: 4px 10px; border-radius: 999px; }
-  .work-cap {
-    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left;
-  }
-  .work-cap-icon {
-    width: 48px; height: 48px; border-radius: 12px; background: rgba(67,56,202,0.2); color: #a5a1f5;
-    display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-  }
-  .work-cap-icon svg { width: 24px; height: 24px; }
 
   /* ===== Pricing ===== */
   .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; position: relative; z-index: 1; }
@@ -431,7 +429,7 @@
         <div class="mock-window mock-terminal">
           <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
           <div class="mock-body">
-            <div class="mock-prompt-line">$ claude</div>
+            <div class="mock-prompt-line">$ start</div>
             <div><span class="mock-caret">&gt;</span> LPをつくりたい<span class="mock-cursor"></span></div>
           </div>
         </div>
@@ -599,37 +597,69 @@
     <div class="section-head">
       <div class="section-number on-dark">SECTION_05</div>
       <h2 style="color:var(--on-dark);">制作事例</h2>
-      <p style="color:var(--on-dark-soft);">まだ実績は多くありませんが、AIとの制作プロセスを実例でご紹介します。</p>
+      <p style="color:var(--on-dark-soft);">AIとの制作プロセスを、4つの実例でご紹介します。すべて実際に公開しているサンプル作品です。</p>
     </div>
     <div class="works-grid">
-      <div class="work-card work-featured">
+      <a href="https://gdrryota.github.io/form-lp/" target="_blank" rel="noopener" class="work-card">
         <div class="work-badge">SAMPLE WORK</div>
-        <div class="work-mock">
+        <div class="work-mock" style="--mock-a:#ffffff; --mock-b:#e8433f;">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>FORM.</h3>
+        <p>パーソナルジムを想定したLP。白×黒×コーラルレッドの力強い配色と、角を斜めにカットした形状で「本気度」を表現。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#フィットネス</span>
+          <span class="work-tag">#エネルギッシュ</span>
+        </div>
+        <div class="work-link-row">form-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
+      <a href="https://gdrryota.github.io/loam-lp/" target="_blank" rel="noopener" class="work-card">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock" style="--mock-a:#fbf7f2; --mock-b:#b5651d;">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>LOAM</h3>
+        <p>自家焙煎カフェを想定したLP。コーヒーブラウン×アンバーの暖色で、円と余白を活かした手仕事感を表現。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#飲食店</span>
+          <span class="work-tag">#ナチュラル</span>
+        </div>
+        <div class="work-link-row">loam-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
+      <a href="https://gdrryota.github.io/orbit-lp/" target="_blank" rel="noopener" class="work-card">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock" style="--mock-a:#f7f9fc; --mock-b:#2f6fed;">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>ORBIT.</h3>
+        <p>チーム管理SaaSを想定したLP。テックブルー×ネイビーで、UIモックアップと軌道モチーフを主役に構成。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#SaaS</span>
+          <span class="work-tag">#ダークUI</span>
+        </div>
+        <div class="work-link-row">orbit-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
+      <a href="https://gdrryota.github.io/sou-lp/" target="_blank" rel="noopener" class="work-card">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock" style="--mock-a:#faf8f3; --mock-b:#ded3c2;">
           <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
           <div class="work-mock-body"></div>
         </div>
         <h3>SOU.</h3>
-        <p>生活雑貨ブランドを想定した架空案件のLP。AIとの共同制作で、ヒアリングから公開までを一通り実施したサンプル作品です。</p>
+        <p>生活雑貨ブランドを想定した架空案件のLP。生成り×クレイの落ち着いた配色でナチュラルな世界観を表現。</p>
         <div class="work-tags">
           <span class="work-tag">#LP</span>
           <span class="work-tag">#ミニマル</span>
-          <span class="work-tag">#レスポンシブ対応</span>
+          <span class="work-tag">#ECブランド</span>
         </div>
-      </div>
-      <div class="work-card work-cap">
-        <div class="work-cap-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
-        </div>
-        <h3>コーポレートサイト</h3>
-        <p>会社紹介・事業内容を伝えるサイトも対応可能です。</p>
-      </div>
-      <div class="work-card work-cap">
-        <div class="work-cap-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-        </div>
-        <h3>個人ポートフォリオサイト</h3>
-        <p>このPROMPT.自体も、同じ手法で制作した一例です。</p>
-      </div>
+        <div class="work-link-row">sou-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
     </div>
   </div>
 </section>
