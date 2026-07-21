@@ -132,7 +132,7 @@
 
   /* ===== Hero ===== */
   .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 84px; }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
   .hero-label {
     font-family: "JetBrains Mono", monospace;
     font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
@@ -140,11 +140,10 @@
     opacity: 0; animation: heroFadeIn 0.7s ease-out 0.1s both;
   }
   .hero-title {
-    font-size: clamp(40px, 5.6vw, 58px);
-    line-height: 1.1;
+    font-size: clamp(32px, 4.4vw, 56px);
+    line-height: 1.15;
     letter-spacing: -0.03em;
     margin-bottom: 28px;
-    max-width: 480px;
     opacity: 0; animation: heroFadeIn 0.7s ease-out 0.3s both;
   }
   .hero-title .accent-word { color: var(--accent); }
@@ -404,7 +403,7 @@
     <div class="hero-grid">
       <div>
         <div class="hero-label mono">PROMPT. | AIでLP制作を代行するパートナー</div>
-        <h1 class="hero-title">はやく、ちゃんと、<span class="accent-word">伝わるLPを。</span></h1>
+        <h1 class="hero-title">はやく、ちゃんと、<br><span class="accent-word">伝わるLPを。</span></h1>
         <p class="hero-sub">デザインの専門知識ではなく、AIを使いこなす力で。ヒアリングから公開まで、スピーディにLPを形にします。</p>
         <div class="hero-cta-wrap">
           <div class="cta-group">
