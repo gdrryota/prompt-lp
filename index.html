@@ -140,10 +140,11 @@
     opacity: 0; animation: heroFadeIn 0.7s ease-out 0.1s both;
   }
   .hero-title {
-    font-size: clamp(44px, 6.2vw, 96px);
+    font-size: clamp(40px, 5.6vw, 58px);
     line-height: 1.1;
     letter-spacing: -0.03em;
     margin-bottom: 28px;
+    max-width: 480px;
     opacity: 0; animation: heroFadeIn 0.7s ease-out 0.3s both;
   }
   .hero-title .accent-word { color: var(--accent); }
@@ -257,7 +258,7 @@
 
   /* ===== Works (dark) ===== */
   .section-dark { background: var(--bg-dark); color: var(--on-dark); }
-  .works-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; position: relative; z-index: 1; }
+  .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; position: relative; z-index: 1; }
   .work-card {
     background: #1a1a1a; border-radius: 18px; padding: 32px; border: 1px solid rgba(247,247,245,0.08);
     display: block; transition: transform 0.25s ease, border-color 0.25s ease;
@@ -403,7 +404,7 @@
     <div class="hero-grid">
       <div>
         <div class="hero-label mono">PROMPT. | AIでLP制作を代行するパートナー</div>
-        <h1 class="hero-title">はやく、ちゃんと、<br><span class="accent-word">伝わるLPを。</span></h1>
+        <h1 class="hero-title">はやく、ちゃんと、<span class="accent-word">伝わるLPを。</span></h1>
         <p class="hero-sub">デザインの専門知識ではなく、AIを使いこなす力で。ヒアリングから公開まで、スピーディにLPを形にします。</p>
         <div class="hero-cta-wrap">
           <div class="cta-group">
@@ -597,7 +598,7 @@
     <div class="section-head">
       <div class="section-number on-dark">SECTION_05</div>
       <h2 style="color:var(--on-dark);">制作事例</h2>
-      <p style="color:var(--on-dark-soft);">AIとの制作プロセスを、4つの実例でご紹介します。すべて実際に公開しているサンプル作品です。</p>
+      <p style="color:var(--on-dark-soft);">AIとの制作プロセスを、6つの実例でご紹介します。すべて実際に公開しているサンプル作品です。</p>
     </div>
     <div class="works-grid">
       <a href="https://gdrryota.github.io/form-lp/" target="_blank" rel="noopener" class="work-card">
@@ -659,6 +660,36 @@
           <span class="work-tag">#ECブランド</span>
         </div>
         <div class="work-link-row">sou-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
+      <a href="https://gdrryota.github.io/shizuku-lp/" target="_blank" rel="noopener" class="work-card">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock" style="--mock-a:#f0fbff; --mock-b:#00c2d1;">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>SHIZUKU.</h3>
+        <p>夏季限定アイスドリンク菓子を想定したLP。水色×シアンの清涼感と、雫モチーフの丸みで親しみやすさを表現。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#食品パッケージ</span>
+          <span class="work-tag">#ポップ</span>
+        </div>
+        <div class="work-link-row">shizuku-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+      </a>
+      <a href="https://gdrryota.github.io/nagi-lp/" target="_blank" rel="noopener" class="work-card">
+        <div class="work-badge">SAMPLE WORK</div>
+        <div class="work-mock" style="--mock-a:#211d16; --mock-b:#b8935a;">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="work-mock-body"></div>
+        </div>
+        <h3>凪 NAGI</h3>
+        <p>高級温泉旅館を想定したLP。墨色基調のダークトーンと明朝体で、余白を活かした静けさを表現。</p>
+        <div class="work-tags">
+          <span class="work-tag">#LP</span>
+          <span class="work-tag">#宿泊業</span>
+          <span class="work-tag">#ラグジュアリー</span>
+        </div>
+        <div class="work-link-row">nagi-lp.github.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
       </a>
     </div>
   </div>
