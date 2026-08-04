@@ -291,10 +291,16 @@
   .work-tag { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--on-dark-soft); border: 1px solid rgba(247,247,245,0.15); padding: 4px 10px; border-radius: 999px; }
 
   /* ===== Pricing ===== */
-  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; position: relative; z-index: 1; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; position: relative; z-index: 1; }
   .price-card {
     background: var(--bg); border: 1px solid rgba(17,17,17,0.1); border-radius: 20px;
-    padding: 44px 36px; display: flex; flex-direction: column;
+    padding: 36px 26px; display: flex; flex-direction: column;
+  }
+  .price-case-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--accent); margin-top: 14px; }
+  .price-card.featured .price-case-link { color: var(--bg); text-decoration: underline; }
+  @media (max-width: 1024px) {
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .price-card.featured { transform: none; }
   }
   .price-card.featured {
     background: var(--text); color: var(--bg); border-color: var(--text);
@@ -706,18 +712,31 @@
     <div class="section-head center" style="max-width:600px;">
       <div class="section-number" style="justify-content:center;">SECTION_06</div>
       <h2>料金プラン</h2>
-      <p>まずは小さく試したい方から、公開までまるごとお任せしたい方まで。</p>
+      <p>まずは小さく試したい方から、公開までまるごとお任せしたい方まで。プロダクトデザインの制作事例は<a href="#works" style="text-decoration:underline; color:var(--accent);">こちら</a>からご覧いただけます。</p>
     </div>
     <div class="pricing-grid">
+      <div class="price-card">
+        <h3>ミニマムプラン</h3>
+        <div class="price-range">¥15,000〜</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作(4〜5セクション構成)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>主要画面のワイヤーフレーム2〜3点</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>実写画像の挿入 1点まで</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正1回まで</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML納品</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>対応目安 3日</li>
+        </ul>
+        <a href="mailto:gdr.ryota338@gmail.com?subject=ミニマムプランのご相談" class="btn btn-outline">相談してみる</a>
+      </div>
       <div class="price-card">
         <h3>ライトプラン</h3>
         <div class="price-range">¥30,000〜</div>
         <ul class="price-feats">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作(7〜8セクション構成)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>実写画像の挿入 2〜3点</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正3回まで</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML納品</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>対応目安 5日</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>画像自動補完対応</li>
         </ul>
         <a href="mailto:gdr.ryota338@gmail.com?subject=ライトプランのご相談" class="btn btn-outline">相談してみる</a>
       </div>
@@ -726,11 +745,12 @@
         <h3>スタンダードプラン</h3>
         <div class="price-range">¥58,000〜</div>
         <ul class="price-feats">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1ページLP制作(7〜8セクション構成)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>実写画像の挿入 4〜6点</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>参考サイト2〜3件の分析に基づいた設計</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正回数 無制限</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML + Figmaデータ納品</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>対応目安 3〜5日</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>参考サイト分析付き</li>
         </ul>
         <a href="mailto:gdr.ryota338@gmail.com?subject=スタンダードプランのご相談" class="btn btn-light">相談してみる</a>
       </div>
@@ -738,13 +758,15 @@
         <h3>フルサポートプラン</h3>
         <div class="price-range">¥98,000〜</div>
         <ul class="price-feats">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>複数ページ対応</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>メインLP(1枚)+ サブページ最大2枚(料金詳細/会社紹介/FAQ等)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>IA設計・ワイヤーフレーム・UIモックアップ(HTML/CSS形式)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>実写画像の挿入 制限なし</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>修正回数 無制限</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML + Figmaデータ納品</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>公開作業の代行</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>HTML + Figmaデータ納品・公開代行(GitHub Pages等)</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>公開後1ヶ月サポート</li>
         </ul>
         <a href="mailto:gdr.ryota338@gmail.com?subject=フルサポートプランのご相談" class="btn btn-outline">相談してみる</a>
+        <a href="https://gdrryota.github.io/orbit-case-study/" target="_blank" rel="noopener" class="price-case-link">制作プロセスの事例を見る <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>
       </div>
     </div>
   </div>
